@@ -86,10 +86,17 @@ Connection conect = null;
 			
 			ResultSet resultat = peticio.executeQuery(consulta);
 			
-			// Así cojo el color que quiero resultat.getString("angles");
+			// Así cojo el color que quiero: resultat.getString("angles");
+			// si idioma = nom cojer el de castellano, francés y inglés
+			// y ponerlo en el TextField que toque
+			String cat;
+			String cas;
+			String fr;
+			String ang;
 			switch(idioma){
 			case "nom":
-				
+				cas =  resultat.getString("castella");
+				fr = resultat.getString("castella");
 				break;
 			case "castella":
 				
