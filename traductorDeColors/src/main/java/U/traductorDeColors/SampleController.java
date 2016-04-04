@@ -35,16 +35,16 @@ public class SampleController implements Initializable {
 	private TextField icolor3;
 	@FXML
 	private ComboBox<String> comoIdioma;
+	
+	Connection conect = null;
 
 	// Event Listener on Button.onAction
 	@FXML
 	public void cercar(ActionEvent event) {
-Connection conect = null;
+
     	
     	try {
-			Class.forName("com.mysql.jdbc.Driver");
 			
-			conect = DriverManager.getConnection("jdbc:mysql://192.168.4.1/traductor", "foot", "ball");
 			
 			
 			
@@ -80,7 +80,8 @@ Connection conect = null;
 			}
 			
 			
-			String consulta = "SELECT angles, castella, nom, frances FROM colors WHERE"+idioma+"="+demanat+";";
+			String consulta = "SELECT angles, castella, nom, frances FROM colors WHERE "+idioma+"='"+demanat+"'";
+			System.out.println(consulta);
 			
 			Statement peticio = conect.createStatement();
 			
@@ -89,6 +90,8 @@ Connection conect = null;
 			// Así cojo el color que quiero: resultat.getString("angles");
 			// si idioma = nom cojer el de castellano, francés y inglés
 			// y ponerlo en el TextField que toque
+			
+			// Poner resultat.next o algo así, miralo en el pdf
 			String cat;
 			String cas;
 			String fr;
@@ -96,16 +99,35 @@ Connection conect = null;
 			switch(idioma){
 			case "nom":
 				cas =  resultat.getString("castella");
-				fr = resultat.getString("castella");
+				icolor1.setText(cas);
+				fr = resultat.getString("frances");
+				icolor2.setText(fr);
+				ang = resultat.getString("angles");
+				icolor3.setText(ang);
 				break;
 			case "castella":
-				
+				cat =  resultat.getString("nom");
+				icolor1.setText(cat);
+				fr = resultat.getString("frances");
+				icolor2.setText(fr);
+				ang = resultat.getString("angles");
+				icolor3.setText(ang);
 				break;
 			case "frances":
-				
+				cat =  resultat.getString("nom");
+				icolor1.setText(cat);
+				cas =  resultat.getString("castella");
+				icolor1.setText(cas);
+				ang = resultat.getString("angles");
+				icolor3.setText(ang);
 				break;
 			case "angles":
-				
+				cat =  resultat.getString("nom");
+				icolor1.setText(cat);
+				cas =  resultat.getString("castella");
+				icolor1.setText(cas);
+				fr = resultat.getString("frances");
+				icolor2.setText(fr);
 				break;
 			}
 			
@@ -116,9 +138,7 @@ Connection conect = null;
 			
 			
 			
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -129,6 +149,18 @@ Connection conect = null;
 	public void initialize(URL location, ResourceBundle resources) {
 		comoIdioma.getItems().addAll("Català","Castellà","Francès","Anglès");
 		comoIdioma.setValue("Català");
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conect = DriverManager.getConnection("jdbc:mysql://192.168.4.1/traductor", "foot", "ball");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		
 	}
 }
