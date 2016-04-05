@@ -92,6 +92,7 @@ public class SampleController implements Initializable {
 			// y ponerlo en el TextField que toque
 			
 			// Poner resultat.next o algo así, miralo en el pdf
+			resultat.next();
 			String cat;
 			String cas;
 			String fr;
